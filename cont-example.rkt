@@ -6,7 +6,7 @@
 (reset (shift k "1")) ; "1"
 
 (- (reset (shift k 3)) 1) ; 2
-;;; (- (reset (shift k "")) 1) ; error
+;;; (- (reset (shift k "3")) 1) ; error
 
 ((reset (shift k k)) 3) ; 3
 
