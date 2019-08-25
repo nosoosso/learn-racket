@@ -1,24 +1,18 @@
 #lang racket
 
+; 「shift/reset プログラミング入門」を Racket で書いてみたもの
+; http://pllab.is.ocha.ac.jp/~asai/cw2011tutorial/main-j.pdf
+
 (require racket/control)
 (require racket/trace)
 
-(define example1
-  (reset (- (+ 3 (shift cont (* 5 2))) 1))
-  )
+; 2.5 ----------------------------------------------
 
-(define example2
-  (reset
-   (- (+ 3 (shift cont "hello")) 1)
-   )
-  )
+;;; (reset (- (+ 3 (shift k (* 5 2))) 1)) ; output: 10
 
-(define example3
-  (-
-   (reset (+ 3 (shift cont (* 5 2))))
-   1
-   )
-  )
+;;; (reset (- (+ 3 (shift cont "hello")) 1)) ; output: "hello"
+
+;;; (- (reset (+ 3 (shift cont (* 5 2)))) 1) ; output: 9
 
 (define (sum int-list)
   (if (empty? int-list)
@@ -44,12 +38,11 @@
    )
   )
 
-
-
 ;(trace times2)
 ;(times2 '(1 2 3 4 5 6 7))
 ;(times2 '(1 2 3 0 4 5 6 7))
 
+; 2.5 ----------------------------------------------
 
 (define (f x)
   ((reset
@@ -81,7 +74,6 @@
 
 ;(displayln (5-2 #t)) ;output: "hello world"
 ;(displayln (5-2 #f)) ;output: "hi world"
-
 
 (define (6-1 lst)
   (match lst
@@ -326,19 +318,19 @@
    ;;;     )
    ;;;   ) ; output: 1 2 hello
 
-  ;;;  (reset 
-  ;;;   (let 
-  ;;;       ([p (either true false)]
-  ;;;        [q (either true false)])
-  ;;;     (if (and (and (or p q) (or p (not q))) (or (not p) (not q)))
-  ;;;         (begin
-  ;;;           (display p)
-  ;;;           (display ", ")
-  ;;;           (display q)
-  ;;;           (displayln "")
-  ;;;           )
-  ;;;         (void)
-  ;;;         ))) ; output: #t, #f
+   ;;;  (reset 
+   ;;;   (let 
+   ;;;       ([p (either true false)]
+   ;;;        [q (either true false)])
+   ;;;     (if (and (and (or p q) (or p (not q))) (or (not p) (not q)))
+   ;;;         (begin
+   ;;;           (display p)
+   ;;;           (display ", ")
+   ;;;           (display q)
+   ;;;           (displayln "")
+   ;;;           )
+   ;;;         (void)
+   ;;;         ))) ; output: #t, #f
 
    (void)
    ))
