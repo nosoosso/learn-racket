@@ -258,15 +258,15 @@
      )
     
    ; TODO
-   (displayln 
-      (lambda () 
-        ((reset (get)) 0)
-        )
-      )
+   ;;;  (displayln 
+   ;;;     (lambda () 
+   ;;;       ((reset (get)) 0)
+   ;;;       )
+   ;;;     )
 
    (define (tick)
      (shift k (lambda (state) ((k) (+ state 1)))
-      )
+            )
      )
 
    (define (run-state thunk)
@@ -278,21 +278,67 @@
        ) 0)
      )
 
-    (displayln
-     (run-state 
-      (lambda ()
-        (tick)
-        (tick)
-        (let ([a (get)])
-          (tick)
-          (- (get) a)
-          )
-        )
-      )) ; 1
+   ;;; (displayln
+   ;;;  (run-state
+   ;;;   (lambda ()
+   ;;;     (tick)
+   ;;;     (tick)
+   ;;;     (let ([a (get)])
+   ;;;       (tick)
+   ;;;       (- (get) a)
+   ;;;       )
+   ;;;     )
+   ;;;   )) ; output: 1
 
    (void)
    ))
 
+; 2.12 ----------------------------------------------
 
-;;; ((lambda x x) 1)   ; 1
-;;; ((lambda (x) x) 1) ; '(1)
+((lambda ()
+   (define (either a b)
+     (shift
+      k
+      (k a)
+      (k b)
+      ))
+
+   ;;;  (reset
+   ;;;   (let
+   ;;;       ([x (either 0 1)])
+   ;;;     (display x)
+   ;;;     (displayln "")
+   ;;;     )
+   ;;;   ) ; output: 0 1
+
+   (define (12-1 lis)
+     (shift 
+      k 
+      (for ([i lis])
+        (k i)
+        )))
+
+   ;;;  (reset
+   ;;;   (let
+   ;;;       ([x (12-1 '(1 "2" "hello"))])
+   ;;;     (display x)
+   ;;;     (displayln "")
+   ;;;     )
+   ;;;   ) ; output: 1 2 hello
+
+  ;;;  (reset 
+  ;;;   (let 
+  ;;;       ([p (either true false)]
+  ;;;        [q (either true false)])
+  ;;;     (if (and (and (or p q) (or p (not q))) (or (not p) (not q)))
+  ;;;         (begin
+  ;;;           (display p)
+  ;;;           (display ", ")
+  ;;;           (display q)
+  ;;;           (displayln "")
+  ;;;           )
+  ;;;         (void)
+  ;;;         ))) ; output: #t, #f
+
+   (void)
+   ))
